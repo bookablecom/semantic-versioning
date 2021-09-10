@@ -1,0 +1,19 @@
+  
+name: 'Semantic Versioning'
+description: 'Semantic Versioning'
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    
+    - uses: paulhatch/semantic-version@v4.0.2
+      with:
+        tag_prefix: "v"
+        major_pattern: "(RELEASE)"
+        minor_pattern: "(FEATURE)"
+        patch_pattern: "(FIX)"
+        format: "${major}.${minor}.${patch}-RC${increment}"
+        short_tags: false
+        bump_each_commit: false
