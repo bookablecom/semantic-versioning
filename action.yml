@@ -1,6 +1,10 @@
   
 name: 'Semantic Versioning'
 description: 'Semantic Versioning'
+outputs:
+  version: 
+    description: "Semantic Version"
+    value: ${{ steps.semantic-versioning.outputs.version }}
 runs:
   using: "composite"
   steps:
@@ -8,7 +12,8 @@ runs:
       with:
         fetch-depth: 0
     
-    - uses: paulhatch/semantic-version@v4.0.2
+    - id: semantic-versioning
+      uses: paulhatch/semantic-version@v4.0.2
       with:
         tag_prefix: "v"
         major_pattern: "(RELEASE)"
