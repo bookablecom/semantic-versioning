@@ -18,7 +18,6 @@ runs:
         tag_prefix: "v"
         major_pattern: "(RELEASE)"
         minor_pattern: "(FEATURE)"
-        patch_pattern: "(FIX)"
         format: "${major}.${minor}.${patch}-RC${increment}"
         short_tags: false
         bump_each_commit: false
