@@ -1,23 +1,19 @@
   
 name: 'Semantic Versioning'
 description: 'Semantic Versioning'
-outputs:
-  version: 
-    description: "Semantic Version"
-    value: ${{ steps.semantic-versioning.outputs.version }}
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    
-    - id: semantic-versioning
-      uses: paulhatch/semantic-version@v4.0.2
-      with:
-        tag_prefix: "v"
-        major_pattern: "(RELEASE)"
-        minor_pattern: "(FEATURE)"
-        format: "${major}.${minor}.${patch}-RC${increment}"
-        short_tags: false
-        bump_each_commit: false
+    steps:
+      - uses: actions/checkout@v2
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v5.6
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create a GitHub release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
